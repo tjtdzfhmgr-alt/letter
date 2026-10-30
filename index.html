@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4eee4">
+  <title>A Letter for You ♡</title>
+  <style>
+    :root {
+      --paper: #f4eee4;
+      --ink: #604b3b;
+      --muted: #9b8068;
+      --envelope: #c6a17f;
+      --flap: #d8b797;
+      --letter: #fffaf1;
+      --seal: #895b4c;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100svh;
+      padding: 32px 18px;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 20% 10%, #fffaf5 0, transparent 42%),
+        var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    .page { width: min(100%, 420px); text-align: center; }
+    .eyebrow {
+      font: 11px/1.6 Arial, sans-serif;
+      letter-spacing: .24em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 17px 0 10px;
+      font-size: clamp(28px, 8vw, 36px);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+    .intro {
+      margin: 0 auto;
+      max-width: 280px;
+      color: #927b67;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+    .envelope-wrap {
+      width: 100%;
+      min-height: 245px;
+      display: grid;
+      place-items: center;
+      perspective: 900px;
+    }
+    .envelope {
+      position: relative;
+      width: min(78vw, 300px);
+      height: min(52vw, 190px);
+      min-height: 160px;
+      background: var(--envelope);
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 16px 35px #74583b20;
+      outline-offset: 8px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .envelope::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background: var(--flap);
+      clip-path: polygon(0 0, 50% 58%, 100% 0);
+      transform-origin: top center;
+      transition: transform .8s ease, z-index .1s .4s;
+      backface-visibility: visible;
+    }
+    .envelope::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      background: #bd9674;
+      clip-path: polygon(0 100%, 0 0, 50% 55%, 100% 0, 100% 100%);
+      border-radius: 4px;
+    }
+    .seal {
+      position: absolute;
+      z-index: 5;
+      top: 53%;
+      left: 50%;
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: var(--seal);
+      color: #fff3e5;
+      font-size: 22px;
+      box-shadow: 0 2px 5px #60402c25;
+      transition: opacity .25s ease;
+    }
+    .letter {
+      position: absolute;
+      z-index: 2;
+      left: 7%;
+      top: 8%;
+      width: 86%;
+      height: 82%;
+      overflow: hidden;
+      padding: 18px 12px;
+      background: var(--letter);
+      transition: transform .9s ease;
+    }
+    .letter-mini {
+      margin-top: 12px;
+      font-size: 12px;
+      line-height: 1.8;
+      color: #9a8068;
+    }
+    .envelope.open::before {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+    .envelope.open .seal { opacity: 0; }
+    .envelope.open .letter { transform: translateY(-90px); }
+    .hint {
+      margin: 0 0 16px;
+      color: #9b8068;
+      font: 12px/1.7 Arial, sans-serif;
+    }
+    .full-letter {
+      display: none;
+      margin: 14px 0 24px;
+      padding: 30px 25px;
+      text-align: left;
+      background: var(--letter);
+      border: 1px solid #e8dccb;
+      box-shadow: 0 12px 28px #74583b0c;
+      line-height: 2;
+      font-size: 15px;
+      animation: rise .7s ease both;
+    }
+    .full-letter h2 {
+      margin: 12px 0 4px;
+      text-align: center;
+      font-weight: 400;
+      font-size: 27px;
+    }
+    .date {
+      text-align: center;
+      font: 10px/1.8 Arial, sans-serif;
+      letter-spacing: .16em;
+      color: #a18a72;
+    }
+    .letter-body { white-space: pre-line; }
+    .sign {
+      text-align: right;
+      color: #a16c5d;
+      margin-top: 22px;
+    }
+    .controls { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    button {
+      padding: 12px 20px;
+      border: 1px solid #b69a80;
+      border-radius: 30px;
+      color: #725944;
+      background: transparent;
+      font: 13px Arial, sans-serif;
+      cursor: pointer;
+    }
+    button:active { transform: scale(.98); }
+    #again { display: none; }
+    .footer { margin-top: 28px; font-size: 12px; color: #aa927c; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="eyebrow">A little something for you</div>
+    <h1>To My Favorite Person</h1>
+    <p class="intro">I made something for you.<br>Tap the envelope to open it.</p>
+
+    <div class="envelope-wrap">
+      <div class="envelope" id="envelope" role="button" tabindex="0"
+           aria-label="เปิดซองจดหมาย">
+        <div class="letter" aria-hidden="true">
+          <div class="eyebrow">for you, always</div>
+          <div class="letter-mini">A little letter<br>from my heart ♡</div>
+        </div>
+        <div class="seal">♥</div>
+      </div>
+    </div>
+
+    <p class="hint" id="hint">tap the envelope ♡</p>
+
+    <section class="full-letter" id="fullLetter" aria-live="polite">
+      <div class="eyebrow" style="text-align:center">to my love</div>
+      <h2>Happy Anniversary</h2>
+      <div class="date">OUR LITTLE WORLD · ♡</div>
+
+      <div class="letter-body">Dear you,
+
+I don't think I could ever fit everything I feel for you into one letter, but I want to try.
+
+Thank you for being part of my life. Thank you for all the little moments, the laughs, the talks, and even the ordinary days that feel special just because you're in them.
+
+If I could choose again, I'd still want to meet you, get to know you, and choose you. I hope we keep growing together, learning each other a little more, and making memories that we'll look back on someday.
+
+No matter how busy life gets, I hope you always remember that you mean so much to me.
+
+Here's to our little world, and all the days we haven't lived yet.
+
+I love you.</div>
+
+      <div class="sign">With all my love,<br>Your favorite person ♡</div>
+    </section>
+
+    <div class="controls">
+      <button id="again">Read my letter again ♡</button>
+    </div>
+    <div class="footer">made with love, just for you</div>
+  </main>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    const fullLetter = document.getElementById('fullLetter');
+    const again = document.getElementById('again');
+    const hint = document.getElementById('hint');
+
+    function openLetter() {
+      if (envelope.classList.contains('open')) return;
+      envelope.classList.add('open');
+      hint.style.display = 'none';
+      window.setTimeout(() => {
+        fullLetter.style.display = 'block';
+        again.style.display = 'inline-block';
+        fullLetter.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 650);
+    }
+
+    envelope.addEventListener('click', openLetter);
+    envelope.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openLetter();
+      }
+    });
+
+    again.addEventListener('click', () => {
+      fullLetter.style.display = 'none';
+      again.style.display = 'none';
+      envelope.classList.remove('open');
+      hint.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
